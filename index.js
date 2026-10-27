@@ -112,5 +112,98 @@ function gameObject() {
                 },
             },
         },
+ 
     };
 }
+const teamInfo = gameObject()
+function teamNames (){
+    return Object.keys(teamInfo).map(key => teamInfo[key].teamName)
+}
+console.log (teamNames())
+
+function teamColors(teamName) {
+    const team = Object.values(teamInfo).find(team => team.teamName === teamName)
+    return team ? team.colors : undefined
+}
+console.log(teamColors('Brooklyn Nets'))
+console.log(teamColors('Charlotte Hornets'))
+
+//numPointScored is similar in approach to shoeSize only that one uses Object.values
+function  numPointsScored(playerName) {
+    for (const team of Object.values(teamInfo)) {
+        const player = team.players[playerName]
+        if (player) {
+            return player.points
+        }
+    }
+    return undefined
+}
+console.log(numPointsScored('Alan Anderson'))
+console.log(numPointsScored('Ben Gordon'))
+
+function shoeSize(playerName) {
+    for (const teamKey in teamInfo) {
+        const team = teamInfo[teamKey]
+
+        for (const name in team.players) {
+            if (name === playerName) {
+                const player = team.players[name]
+                return player.shoe
+            }
+        }
+    }
+    return undefined 
+}
+console.log(shoeSize('Alan Anderson'))
+console.log(shoeSize('Ben Gordon'))
+
+function playerNumbers (teamName) {
+    for (const team of Object.values(teamInfo)) {
+        if (team.teamName === teamName) {
+            return Object.values(team.players).map(player => player.number)
+        }
+    }
+    return undefined
+}   
+
+console.log (playerNumbers('Brooklyn Nets'))
+console.log (playerNumbers('Charlotte Hornets'))
+
+function playerStats (playerName) {
+    for (const teamKey in teamInfo) {
+        const team = teamInfo[teamKey]
+
+        for (const name in team.players) {
+            if (name === playerName) {
+                const player = team.players[name]
+                return player
+            }
+        }
+    }
+    return undefined
+}
+console.log(playerStats('Alan Anderson'))
+console.log(playerStats('Ben Gordon'))
+
+function bigShoeRebounds () {
+    const shoeSizes = []
+
+    for (const team of Object.values(teamInfo)) {
+        const teamShoeSizes = Object.values(team.players).map(player => player.shoe)
+        shoeSizes.push(...teamShoeSizes)
+    }
+
+
+    const bigShoe = shoeSizes.reduce((max, size) => Math.max(max, size), 0)
+
+    for (const team of Object.values(teamInfo)) {
+        const player = Object.values(team.players).find(player => player.shoe === bigShoe)
+        if (player) {
+            return player.rebounds
+        }
+    }
+
+    return undefined
+}
+
+console.log(bigShoeRebounds())
